@@ -30,7 +30,7 @@ export default class Loading {
         //设置图片
         this.img.src = src;
 
-
+        //初始化增量时间
         this.lastTime = Date.now();
         this.deltaTime = 0;
 
@@ -46,15 +46,21 @@ export default class Loading {
             img = new Image();
             img.src = obj[key];
 
-            //图片加载完成
-            img.onload = (obj) => {
-                //加载完成数 + 1
-                this.completeNum = this.completeNum + 1;
-                //计算当前的百分比
-                this.ratio = ((this.completeNum / this.imgLen ).toFixed(2) * 100).toFixed(0);
-            };
+            //图片上传完成设置百分比
+            this.imgOnLoadSetRatio(img);
         }
     };
+
+    //图片上传完成设置百分比
+    imgOnLoadSetRatio(img){
+        //图片加载完成
+        img.onload = (obj) => {
+            //加载完成数 + 1
+            this.completeNum = this.completeNum + 1;
+            //计算当前的百分比
+            this.ratio = ((this.completeNum / this.imgLen ).toFixed(2) * 100).toFixed(0);
+        };
+    }
 
     //进度初始化
     progressInit(){
@@ -80,13 +86,15 @@ export default class Loading {
         //进度加载结束回调函数
         let loadProEnd = this.loadEndCallback || function () {};
 
-        //绘制
+        //绘制进度比例
         this.drawProgressRatio(this.ratio);
 
         //如果没有图片了
         if (this.completeNum === this.imgLen) {
-            console.log('loadProEnd');
-            loadProEnd();
+            setTimeout(function(){
+                console.log('loadProEnd');
+                loadProEnd();
+            },200);
         }
     }
 
@@ -103,7 +111,6 @@ export default class Loading {
 
     //循环绘制
     loopDraw(loadEndCallback) {
-
         //保存加载完成回调函数
         if (this.loadEndCallback === undefined) {
             this.loadEndCallback = loadEndCallback ? loadEndCallback : '';

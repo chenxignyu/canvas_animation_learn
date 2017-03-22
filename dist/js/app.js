@@ -258,6 +258,7 @@
 	            //设置图片
 	            this.img.src = src;
 
+	            //初始化增量时间
 	            this.lastTime = Date.now();
 	            this.deltaTime = 0;
 
@@ -270,28 +271,37 @@
 	    }, {
 	        key: 'loadImg',
 	        value: function loadImg(obj) {
-	            var _this = this;
-
 	            var img = void 0;
 	            var key = void 0;
 	            for (key in obj) {
 	                img = new Image();
 	                img.src = obj[key];
 
-	                //图片加载完成
-	                img.onload = function (obj) {
-	                    //加载完成数 + 1
-	                    _this.completeNum = _this.completeNum + 1;
-	                    //计算当前的百分比
-	                    _this.ratio = ((_this.completeNum / _this.imgLen).toFixed(2) * 100).toFixed(0);
-	                };
+	                //图片上传完成设置百分比
+	                this.imgOnLoadSetRatio(img);
 	            }
 	        }
 	    }, {
-	        key: 'progressInit',
+	        key: 'imgOnLoadSetRatio',
 
+
+	        //图片上传完成设置百分比
+	        value: function imgOnLoadSetRatio(img) {
+	            var _this = this;
+
+	            //图片加载完成
+	            img.onload = function (obj) {
+	                //加载完成数 + 1
+	                _this.completeNum = _this.completeNum + 1;
+	                //计算当前的百分比
+	                _this.ratio = ((_this.completeNum / _this.imgLen).toFixed(2) * 100).toFixed(0);
+	            };
+	        }
 
 	        //进度初始化
+
+	    }, {
+	        key: 'progressInit',
 	        value: function progressInit() {
 	            //获取index对象的数组
 	            var imgIndexKeys = Object.keys(_img_data2.default.index);
@@ -317,13 +327,15 @@
 	            //进度加载结束回调函数
 	            var loadProEnd = this.loadEndCallback || function () {};
 
-	            //绘制
+	            //绘制进度比例
 	            this.drawProgressRatio(this.ratio);
 
 	            //如果没有图片了
 	            if (this.completeNum === this.imgLen) {
-	                console.log('loadProEnd');
-	                loadProEnd();
+	                setTimeout(function () {
+	                    console.log('loadProEnd');
+	                    loadProEnd();
+	                }, 200);
 	            }
 	        }
 
