@@ -45,7 +45,7 @@
 
     <h2>六.背景图片更换动画的实现及要注意的问题</h2>
     <ul>
-        <li>1.循环绘制可通过 <pre>window.requestAnimationFrame</pre> API 提交性能优化 16.6ms </li>
+        <li>1.循环绘制可通过 <pre>window.requestAnimationFrame</pre> API 提升 16.6ms 性能优化 </li>
         <li>2.循环绘制要先清除上一次绘制的画布内容 <pre>context.clearRect(0, 0, canvasWidth, canvasHeight);</pre></li>
         <li>3.循环绘制要控制 deltaTime(增量时间) ， 保持动画绘制的顺畅</li>
         <li>4.注意画布的 z-index , 先绘制的在底层 ， 后绘制的在高层 。 （跟css道理一样）</li>
