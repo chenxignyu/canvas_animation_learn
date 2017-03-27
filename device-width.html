@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<canvas id="canvas" style="position: absolute;top: 0;left: 0"></canvas>
+
+
+</body>
+<script>
+
+    window.requestAnimFrame = (function () {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || function (callback, element) {
+                return window.setTimeout(callback, 1000 / 60);
+            };
+    })();
+
+
+    window.cancelAnimFrame = (function () {
+        return window.cancelAnimationFrame || window.webkitCancelAnimationFrame || clearTimeout;
+    })();
+
+    var BackGround = function (canvasObj) {
+        this.img = new Image();
+        this.canvasObj = canvasObj || {};
+    };
+
+    BackGround.prototype = {
+        //初始化
+        init: function (src) {
+            if (typeof src !== 'string') {
+                throw Error('请确保 src 为字符串');
+            }
+
+
+            this.img.src = src;
+        },
+        //绘制
+        draw: function () {
+            var self = this;
+            var canvasObj = this.canvasObj;
+
+            canvasObj.context.drawImage(self.img, 0, 0, canvasObj.canWidth, canvasObj.canHeight);
+            this.img.onload = function () {
+
+            }
+        }
+    };
+
+    window.onload = function () {
+        //获取DOM
+        var canvas = document.querySelector('#canvas');
+        var context = canvas.getContext('2d');
+
+        var width = document.documentElement.clientWidth;
+        var height = document.documentElement.clientHeight;
+
+        //设置画布宽高
+        canvas.width = width;
+        canvas.height = height;
+
+        //记录canvas的一些信息
+        var canvasObj = {
+            canvas: canvas,
+            context: context,
+            canWidth: width,
+            canHeight: height,
+        };
+
+
+        var backGround = new BackGround(canvasObj);
+
+        backGround.init('./src/img/bg.png');
+
+        //循环渲染
+        var loop = function() {
+            window.requestAnimFrame(loop);
+
+            backGround.draw();
+
+            canvasObj.context.font="40px Arial";
+            canvasObj.context.fillText("Hello~",canvasObj.canWidth / 2, canvasObj.canHeight / 2);
+        }
+
+        loop()
+
+
+    }
+
+</script>
+</html>

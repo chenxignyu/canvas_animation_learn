@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=640, user-scalable=no">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<canvas id="canvas" style="position: absolute;top: 0;left: 0"></canvas>
+
+
+</body>
+<script>
+
+    var BackGround = function (canvasObj) {
+        this.img = new Image();
+        this.canvasObj = canvasObj || {};
+    };
+
+    BackGround.prototype = {
+        //初始化
+        init: function (src) {
+            if (typeof src !== 'string') {
+                throw Error('请确保 src 为字符串');
+            }
+
+
+            this.img.src = src;
+        },
+        //绘制
+        draw: function () {
+            var self = this;
+            var canvasObj = this.canvasObj;
+            this.img.onload = function () {
+
+                canvasObj.context.drawImage(self.img, 0, 0, canvasObj.canWidth, canvasObj.canHeight);
+
+                canvasObj.context.font="65px Arial";
+                canvasObj.context.fillText("Hello~",canvasObj.canWidth / 2, canvasObj.canHeight / 2);
+            }
+        }
+    };
+
+    window.onload = function () {
+        //获取DOM
+        var canvas = document.querySelector('#canvas');
+        var context = canvas.getContext('2d');
+
+        var width = 640;
+        var height = document.documentElement.clientHeight;
+
+        //设置画布宽高
+        canvas.width = width;
+        canvas.height = height;
+
+        //记录canvas的一些信息
+        var canvasObj = {
+            canvas: canvas,
+            context: context,
+            canWidth: width,
+            canHeight: height,
+        };
+
+
+        var backGround = new BackGround(canvasObj);
+
+        backGround.init('./src/img/bg.png');
+
+        backGround.draw();
+
+    }
+
+</script>
+</html>

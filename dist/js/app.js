@@ -46,13 +46,13 @@
 
 	'use strict';
 
-	__webpack_require__(5);
+	__webpack_require__(1);
 
 	var _img_data = __webpack_require__(2);
 
 	var _img_data2 = _interopRequireDefault(_img_data);
 
-	var _background = __webpack_require__(10);
+	var _background = __webpack_require__(3);
 
 	var _background2 = _interopRequireDefault(_background);
 
@@ -60,11 +60,11 @@
 
 	var _loading2 = _interopRequireDefault(_loading);
 
-	var _run = __webpack_require__(8);
+	var _run = __webpack_require__(6);
 
 	var _run2 = _interopRequireDefault(_run);
 
-	var _road = __webpack_require__(9);
+	var _road = __webpack_require__(7);
 
 	var _road2 = _interopRequireDefault(_road);
 
@@ -168,7 +168,25 @@
 	};
 
 /***/ },
-/* 1 */,
+/* 1 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by chenxingyu on 2017/3/21.
+	 */
+	"use strict";
+
+	window.requestAnimFrame = function () {
+	    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || function (callback, element) {
+	        return window.setTimeout(callback, 1000 / 60);
+	    };
+	}();
+
+	window.cancelAnimFrame = function () {
+	    return window.cancelAnimationFrame || window.webkitCancelAnimationFrame || clearTimeout;
+	}();
+
+/***/ },
 /* 2 */
 /***/ function(module, exports) {
 
@@ -202,7 +220,60 @@
 	};
 
 /***/ },
-/* 3 */,
+/* 3 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by chenxingyu on 2017/3/21.
+	 */
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var BackGround = function () {
+	    function BackGround(canvasObj) {
+	        _classCallCheck(this, BackGround);
+
+	        this.img = new Image();
+
+	        this.canvasObj = canvasObj || {};
+	    }
+
+	    //初始化
+
+
+	    _createClass(BackGround, [{
+	        key: 'init',
+	        value: function init(src) {
+	            if (typeof src !== 'string') {
+	                throw Error('请确保 src 为字符串');
+	            }
+
+	            this.img.src = src;
+	        }
+
+	        //绘制
+
+	    }, {
+	        key: 'draw',
+	        value: function draw() {
+	            var canvasObj = this.canvasObj;
+	            canvasObj.context.drawImage(this.img, 0, 0, canvasObj.canWidth, canvasObj.canHeight);
+	        }
+	    }]);
+
+	    return BackGround;
+	}();
+
+	exports.default = BackGround;
+
+/***/ },
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -221,7 +292,7 @@
 
 	var _img_data2 = _interopRequireDefault(_img_data);
 
-	var _utils = __webpack_require__(7);
+	var _utils = __webpack_require__(5);
 
 	var _utils2 = _interopRequireDefault(_utils);
 
@@ -426,26 +497,6 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	/**
-	 * Created by chenxingyu on 2017/3/21.
-	 */
-	"use strict";
-
-	window.requestAnimFrame = function () {
-	    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || function (callback, element) {
-	        return window.setTimeout(callback, 1000 / 60);
-	    };
-	}();
-
-	window.cancelAnimFrame = function () {
-	    return window.cancelAnimationFrame || window.webkitCancelAnimationFrame || clearTimeout;
-	}();
-
-/***/ },
-/* 6 */,
-/* 7 */
-/***/ function(module, exports) {
-
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
@@ -467,7 +518,7 @@
 	};
 
 /***/ },
-/* 8 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/**
@@ -549,7 +600,7 @@
 	exports.default = Run;
 
 /***/ },
-/* 9 */
+/* 7 */
 /***/ function(module, exports) {
 
 	/**
@@ -630,60 +681,6 @@
 	}();
 
 	exports.default = Road;
-
-/***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	/**
-	 * Created by chenxingyu on 2017/3/21.
-	 */
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var BackGround = function () {
-	    function BackGround(canvasObj) {
-	        _classCallCheck(this, BackGround);
-
-	        this.img = new Image();
-
-	        this.canvasObj = canvasObj || {};
-	    }
-
-	    //初始化
-
-
-	    _createClass(BackGround, [{
-	        key: 'init',
-	        value: function init(src) {
-	            if (typeof src !== 'string') {
-	                throw Error('请确保 src 为字符串');
-	            }
-
-	            this.img.src = src;
-	        }
-
-	        //绘制
-
-	    }, {
-	        key: 'draw',
-	        value: function draw() {
-	            var canvasObj = this.canvasObj;
-	            canvasObj.context.drawImage(this.img, 0, 0, canvasObj.canWidth, canvasObj.canHeight);
-	        }
-	    }]);
-
-	    return BackGround;
-	}();
-
-	exports.default = BackGround;
 
 /***/ }
 /******/ ]);

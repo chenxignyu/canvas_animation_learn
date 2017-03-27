@@ -14,6 +14,7 @@
     "babel-preset-env": "^1.1.8",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
+    "gulp-sequence": "^0.4.6",
     "gulp-watch": "^4.3.11",
     "vinyl-named": "^1.1.0",
     "webpack": "^1.14.0",
