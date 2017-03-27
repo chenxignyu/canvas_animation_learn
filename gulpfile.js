@@ -2,6 +2,8 @@
  * Created by chenxingyu on 2017/2/7.
  */
 const gulp = require('gulp');
+//同步执行任务
+const gulpSequence = require('gulp-sequence');
 const watch = require('gulp-watch');
 const clean = require('gulp-clean');
 const webpack = require('webpack');
@@ -34,34 +36,35 @@ gulp.task('copyImg', function(){
 //清除任务
 gulp.task('clean', function (){
     return gulp.src('./dist')
-    .pipe(clean({force: true}));
+        .pipe(clean({force: true}));
 });
 
 //watch 处理程序
-const watchHandle = () => {
-    //执行任务
-    gulp.run('webpackDev');
-    gulp.run('copyImg');
+const watchHandle = (callback) => {
 
     //监听 src 下的 js
     watch("./src/js/**/*",['webpackDev']);
     //监听 src 下的 img
     watch("src/img/**/*", function (file){
         //执行任务
-        gulp.run('copyImg');
+        gulp.start('copyImg');
     });
+
+
+    //同步执行任务
+    gulpSequence('clean', ['webpackDev','copyImg'])(callback);
 };
 
 //build 处理程序
-const buildHandle = () => {
-    gulp.run('webpackBuild');
-    gulp.run('copyImg');
+const buildHandle = (callback) => {
+    //同步执行任务
+    gulpSequence('clean', ['webpackBuild','copyImg'])(callback);
 };
 
 //监听任务
-gulp.task('watch', ['clean'] , watchHandle);
-gulp.task('w', ['clean'] , watchHandle);
+gulp.task('watch' , watchHandle);
+gulp.task('w' , watchHandle);
 
 //打包任务
-gulp.task('build', ['clean'] , buildHandle);
-gulp.task('b', ['clean'] , buildHandle);
+gulp.task('build', buildHandle);
+gulp.task('b', buildHandle);
